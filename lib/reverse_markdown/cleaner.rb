@@ -48,7 +48,7 @@ module ReverseMarkdown
       end
 
       result = result.gsub(/\s?~{2,}.*?~{2,}\s?/) do |match|
-        preserve_border_whitespaces(match, default_border: ' ') do
+        preserve_border_whitespaces(match) do
           match.strip.sub('~~ ', '~~').sub(' ~~', '~~')
         end
       end
