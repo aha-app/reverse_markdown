@@ -10,7 +10,17 @@ describe ReverseMarkdown::Converters::Del do
 
     it 'converts the input as expected' do
       input = '<del>deldeldel</del>'
-      expect(converter.convert(input)).to eq ' ~~deldeldel~~ '
+      expect(converter.convert(input)).to eq '~~deldeldel~~'
+    end
+
+    it 'preserves enclosing bold and italic formatting' do
+      input = '<strong><del>bold strike</del></strong> <em><del>italic strike</del></em>'
+      expect(converter.convert(input).strip).to eq '**~~bold strike~~** _~~italic strike~~_'
+    end
+
+    it 'preserves whitespace around strikethrough content' do
+      expect(converter.convert('before <del>removed</del> after').strip).to eq 'before ~~removed~~ after'
+      expect(converter.convert('before<del>removed</del>after').strip).to eq 'before~~removed~~after'
     end
 
     it 'skips empty tags' do

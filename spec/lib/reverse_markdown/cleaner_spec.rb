@@ -95,7 +95,13 @@ describe ReverseMarkdown::Cleaner do
     it 'cleans strikethrough stuff as well' do
       input = "1 ~~italic ~~ 2 ~~ italic~~ 3~~italic ~~4"
       result = cleaner.clean_tag_borders(input, {})
-      expect(result).to eq "1 ~~italic~~ 2 ~~italic~~ 3 ~~italic~~ 4"
+      expect(result).to eq "1 ~~italic~~ 2 ~~italic~~ 3~~italic~~4"
+    end
+
+    it 'does not add whitespace between strikethrough and emphasis markers' do
+      input = "before **~~bold strike~~** _~~italic strike~~_ after"
+      result = cleaner.clean_tag_borders(input, {})
+      expect(result).to eq input
     end
   end
 
